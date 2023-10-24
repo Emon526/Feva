@@ -1,7 +1,7 @@
-import 'package:feva/utils/utils.dart';
 import 'package:flutter/material.dart';
 
 import '../consts/consts.dart';
+import '../utils/utils.dart';
 
 class InputWidget extends StatelessWidget {
   final TextEditingController textEditingController;

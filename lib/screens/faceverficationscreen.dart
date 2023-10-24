@@ -1,10 +1,10 @@
 import 'dart:io';
 
 import 'package:face_camera/face_camera.dart';
-import 'package:feva/provider/callprovider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import '../provider/callprovider.dart';
 import 'homescreen.dart';
 
 class FaceVerificatuonScreen extends StatefulWidget {
