@@ -1,5 +1,6 @@
 import 'package:face_camera/face_camera.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:provider/provider.dart';
 
@@ -13,7 +14,10 @@ import 'screens/homescreen.dart';
 
 void main() async {
   WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
-
+  SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
+      statusBarColor: Colors.white, // status bar color
+      statusBarBrightness: Brightness.light,
+      statusBarIconBrightness: Brightness.dark));
   FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
   await FaceCamera.initialize();
   runApp(const MyApp());

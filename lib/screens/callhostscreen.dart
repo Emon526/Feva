@@ -12,74 +12,79 @@ class CallHostScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: SafeArea(
-        child: Padding(
-          padding: const EdgeInsets.all(20.0),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              const Spacer(),
-              DialUserPic(image: context.read<CallProvider>().image!.path),
-              SizedBox(
-                height: Utils(context).getScreenSize.height * 0.1,
-              ),
-              Text(
-                context.read<HomeScreenProvider>().hiringclicked
-                    ? "Looking For Freelancer"
-                    : "Looking For Client",
-                style: const TextStyle(
-                  color: Consts.secondaryColor,
-                  fontWeight: FontWeight.w500,
+    return Consumer<CallProvider>(
+      builder: (BuildContext context, CallProvider value, Widget? child) =>
+          Scaffold(
+        resizeToAvoidBottomInset: false,
+        backgroundColor: Colors.white,
+        body: SafeArea(
+          child: Padding(
+            padding: const EdgeInsets.all(20.0),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                const Spacer(),
+                DialUserPic(image: context.read<CallProvider>().image!),
+                SizedBox(
+                  height: Utils(context).getScreenSize.height * 0.1,
                 ),
-              ),
-              const Spacer(),
-              // Wrap(
-              //   alignment: WrapAlignment.spaceBetween,
-              //   children: [
-              //     DialButton(
-              //       iconSrc: "assets/logo.png",
-              //       text: "Audio",
-              //       press: () {},
-              //     ),
-              //     DialButton(
-              //       iconSrc: "assets/logo.png",
-              //       text: "Microphone",
-              //       press: () {},
-              //     ),
-              //     DialButton(
-              //       iconSrc: "assets/logo.png",
-              //       text: "Video",
-              //       press: () {},
-              //     ),
-              //     DialButton(
-              //       iconSrc: "assets/logo.png",
-              //       text: "Message",
-              //       press: () {},
-              //     ),
-              //     DialButton(
-              //       iconSrc: "assets/logo.png",
-              //       text: "Add contact",
-              //       press: () {},
-              //     ),
-              //     DialButton(
-              //       iconSrc: "assets/logo.png",
-              //       text: "Voice mail",
-              //       press: () {},
-              //     ),
-              //   ],
-              // ),
-              // VerticalSpacing(),
-              RoundedButton(
-                iconSrc: Icons.call_end_outlined,
-                press: () {
-                  Navigator.pop(context);
-                },
-                color: Colors.red,
-                iconColor: Colors.white,
-              ),
-            ],
+                Text(
+                  context.read<HomeScreenProvider>().hiringclicked
+                      ? "Looking For ${value.skill} from ${value.country}"
+                      : "Looking For ${value.skill} Project for ${value.country}",
+                  style: const TextStyle(
+                    color: Consts.secondaryColor,
+                    fontWeight: FontWeight.w500,
+                  ),
+                ),
+                const Spacer(),
+                // Wrap(
+                //   alignment: WrapAlignment.spaceBetween,
+                //   children: [
+                //     DialButton(
+                //       iconSrc: "assets/logo.png",
+                //       text: "Audio",
+                //       press: () {},
+                //     ),
+                //     DialButton(
+                //       iconSrc: "assets/logo.png",
+                //       text: "Microphone",
+                //       press: () {},
+                //     ),
+                //     DialButton(
+                //       iconSrc: "assets/logo.png",
+                //       text: "Video",
+                //       press: () {},
+                //     ),
+                //     DialButton(
+                //       iconSrc: "assets/logo.png",
+                //       text: "Message",
+                //       press: () {},
+                //     ),
+                //     DialButton(
+                //       iconSrc: "assets/logo.png",
+                //       text: "Add contact",
+                //       press: () {},
+                //     ),
+                //     DialButton(
+                //       iconSrc: "assets/logo.png",
+                //       text: "Voice mail",
+                //       press: () {},
+                //     ),
+                //   ],
+                // ),
+                // VerticalSpacing(),
+                RoundedButton(
+                  iconSrc: Icons.call_end_outlined,
+                  press: () {
+                    Navigator.pop(context);
+                  },
+                  color: Colors.red,
+                  iconColor: Colors.white,
+                ),
+              ],
+            ),
           ),
         ),
       ),

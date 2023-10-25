@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:form_field_validator/form_field_validator.dart';
 import 'package:provider/provider.dart';
@@ -11,99 +9,106 @@ import '../widgets/cutombutton.dart';
 import 'callhostscreen.dart';
 
 class LookingForJobsScreen extends StatelessWidget {
-  const LookingForJobsScreen({super.key});
+  final countryController = TextEditingController();
+  final skillController = TextEditingController();
+  LookingForJobsScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
-    final lookingforjobsFormKey = GlobalKey<FormState>();
-    final countryController = TextEditingController();
-    final skillController = TextEditingController();
     final size = Utils(context).getScreenSize;
-    return Consumer<CallProvider>(
-      builder: (BuildContext context, CallProvider value, Widget? child) =>
-          Scaffold(
-        appBar: AppBar(
-          leading: IconButton(
-              onPressed: () {
-                Navigator.pop(context);
-              },
-              icon: const Icon(
-                Icons.arrow_back_ios,
-                color: Colors.black,
-              )),
-          backgroundColor: Colors.white,
-          elevation: 0,
-          title: const Text(
-            "Looking for jobs",
-            style: TextStyle(
+    return Scaffold(
+      backgroundColor: Colors.white,
+      appBar: AppBar(
+        leading: IconButton(
+            onPressed: () {
+              Navigator.pop(context);
+            },
+            icon: const Icon(
+              Icons.arrow_back_ios,
               color: Colors.black,
-            ),
+            )),
+        backgroundColor: Colors.white,
+        elevation: 0,
+        title: const Text(
+          "Looking for jobs",
+          style: TextStyle(
+            color: Colors.black,
           ),
         ),
-        body: SafeArea(
-          child: Container(
-            color: Colors.white,
-            child: Form(
-              key: lookingforjobsFormKey,
-              child: Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Column(
-                  children: [
-                    InputWidget(
-                      inputname: 'Where are you Form?',
-                      textEditingController: countryController,
-                      labelText: 'Select Country',
-                      textInputType: TextInputType.text,
-                      onChanged: (value) {},
-                      onTap: () => _showDropdown(
-                        context: context,
-                        selectedCountry: value.country,
-                        onChanged: (String? newValue) {
-                          value.country = newValue!;
-                          countryController.text = newValue;
-                          Navigator.of(context).pop();
-                        },
-                      ),
-                      validator: RequiredValidator(
-                        errorText: 'Input Required',
-                      ),
-                    ),
-                    SizedBox(
-                      height: size.height * 0.02,
-                    ),
-                    InputWidget(
-                      inputname: 'Skills',
-                      textEditingController: skillController,
-                      labelText: 'Type here',
-                      textInputType: TextInputType.text,
-                      onChanged: (skill) {
-                        value.skill = skill;
-                      },
-                      onFieldSubmitted: (skill) => value.skill = skill,
-                      validator: RequiredValidator(
-                        errorText: 'Input Required',
-                      ),
-                    ),
-                    const Spacer(),
-                    CustomButton(
-                      ontap: () {
-                        if (lookingforjobsFormKey.currentState!.validate()) {
-                          log(value.country);
-                          log(value.skill);
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => const CallHostScreen(),
+      ),
+      body: Consumer<CallProvider>(
+        builder: (BuildContext context, CallProvider value, Widget? child) =>
+            Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Column(
+            children: [
+              Expanded(
+                child: SingleChildScrollView(
+                  child: SafeArea(
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Form(
+                        key: value.lookingforjobsFormKey,
+                        child: Column(
+                          children: [
+                            InputWidget(
+                              inputname: 'Where are you Form?',
+                              textEditingController: countryController,
+                              labelText: 'Select Country',
+                              textInputType: TextInputType.text,
+                              onChanged: (value) {},
+                              onTap: () => _showDropdown(
+                                context: context,
+                                selectedCountry: value.country,
+                                onChanged: (String? newValue) {
+                                  value.country = newValue!;
+                                  countryController.text = newValue;
+                                  Navigator.of(context).pop();
+                                },
+                              ),
+                              validator: RequiredValidator(
+                                errorText: 'Input Required',
+                              ),
                             ),
-                          );
-                        }
-                      },
-                      buttontext: 'Continue →',
+                            SizedBox(
+                              height: size.height * 0.02,
+                            ),
+                            InputWidget(
+                              inputname: 'Skills',
+                              textEditingController: skillController,
+                              labelText: 'Type here',
+                              textInputType: TextInputType.text,
+                              onChanged: (skill) {
+                                value.skill = skill;
+                              },
+                              onFieldSubmitted: (skill) => value.skill = skill,
+                              validator: RequiredValidator(
+                                errorText: 'Input Required',
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
                     ),
-                  ],
+                  ),
                 ),
               ),
-            ),
+              CustomButton(
+                ontap: () {
+                  if (value.lookingforjobsFormKey.currentState!.validate()) {
+                    print(value.country);
+                    print(value.skill);
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => const CallHostScreen(),
+                      ),
+                    );
+                  }
+                },
+                buttontext: 'Continue →',
+              ),
+            ],
           ),
         ),
       ),

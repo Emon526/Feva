@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 
 import '../consts/consts.dart';
@@ -10,7 +12,7 @@ class DialUserPic extends StatelessWidget {
   }) : super(key: key);
 
   final double size;
-  final String image;
+  final File image;
 
   @override
   Widget build(BuildContext context) {
@@ -31,7 +33,7 @@ class DialUserPic extends StatelessWidget {
         ),
         child: ClipRRect(
           borderRadius: BorderRadius.circular(size / 2),
-          child: Image.asset(
+          child: Image.file(
             image,
             fit: BoxFit.cover,
           ),

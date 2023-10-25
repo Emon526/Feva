@@ -18,6 +18,8 @@ class HomeScreen extends StatelessWidget {
       builder:
           (BuildContext context, HomeScreenProvider value, Widget? child) =>
               Scaffold(
+        resizeToAvoidBottomInset: false,
+        backgroundColor: Colors.white,
         body: SafeArea(
           child: Padding(
             padding: const EdgeInsets.all(8.0),
@@ -52,14 +54,14 @@ class HomeScreen extends StatelessWidget {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => const HiringFormScreen(),
+                          builder: (context) => HiringFormScreen(),
                         ),
                       );
                     } else if (value.lookingjobsclicked) {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => const LookingForJobsScreen(),
+                          builder: (context) => LookingForJobsScreen(),
                         ),
                       );
                     } else {

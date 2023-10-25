@@ -3,6 +3,11 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 
 class CallProvider extends ChangeNotifier {
+  final _hiringFormKey = GlobalKey<FormState>();
+  get hiringFormKey => _hiringFormKey;
+  final _lookingforjobsFormKey = GlobalKey<FormState>();
+  get lookingforjobsFormKey => _lookingforjobsFormKey;
+
   String _country = 'Canada';
   String get country => _country;
   set country(String value) {
@@ -13,7 +18,7 @@ class CallProvider extends ChangeNotifier {
   File? _image;
   File? get image => _image;
   set image(File? value) {
-    _image = value!;
+    _image = value;
     notifyListeners();
   }
 
