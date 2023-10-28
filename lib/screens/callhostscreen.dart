@@ -29,10 +29,17 @@ class CallHostScreen extends StatelessWidget {
                 SizedBox(
                   height: Utils(context).getScreenSize.height * 0.1,
                 ),
+                // Text(
+                //   value.hiringclicked
+                //       ? "Looking For ${value.skill} from ${value.country}"
+                //       : "Looking For ${value.skill} Project for ${value.country}",
+                //   style: const TextStyle(
+                //     color: Consts.secondaryColor,
+                //     fontWeight: FontWeight.w500,
+                //   ),
+                // ),
                 Text(
-                  value.hiringclicked
-                      ? "Looking For ${value.skill} from ${value.country}"
-                      : "Looking For ${value.skill} Project for ${value.country}",
+                  value.isRemoteJoined ? "Connected" : "Searching",
                   style: const TextStyle(
                     color: Consts.secondaryColor,
                     fontWeight: FontWeight.w500,

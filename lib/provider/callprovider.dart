@@ -27,6 +27,13 @@ class CallProvider extends ChangeNotifier {
     notifyListeners();
   }
 
+  bool _isRemoteJoined = false;
+  bool get isRemoteJoined => _isRemoteJoined;
+  set isRemoteJoined(value) {
+    _isRemoteJoined = value;
+    notifyListeners();
+  }
+
   bool _openMicrophone = true;
   bool get openMicrophone => _openMicrophone;
   set openMicrophone(value) {
@@ -105,6 +112,7 @@ class CallProvider extends ChangeNotifier {
       },
       onUserJoined: (RtcConnection connection, int remoteUid, int elapsed) {
         log("remote user $remoteUid joined");
+        isRemoteJoined = true;
       },
       onError: (ErrorCodeType err, String msg) {
         log('[onError] err: $err, msg: $msg');
@@ -112,6 +120,7 @@ class CallProvider extends ChangeNotifier {
       onUserOffline: (RtcConnection connection, int remoteUid,
           UserOfflineReasonType reason) {
         log("remote user $remoteUid left channel");
+        isRemoteJoined = false;
       },
       onTokenPrivilegeWillExpire: (RtcConnection connection, String token) {
         log('[onTokenPrivilegeWillExpire] connection: ${connection.toJson()}, token: $token');
@@ -189,7 +198,7 @@ class CallProvider extends ChangeNotifier {
     }
   }
 
-  joinChannel() async {
+  joinChannel(int uid) async {
     if (await Permission.microphone.isDenied ||
         await Permission.microphone.isLimited ||
         await Permission.microphone.isPermanentlyDenied ||
@@ -201,7 +210,7 @@ class CallProvider extends ChangeNotifier {
     await _engine.joinChannel(
         token: Consts.agoraToken,
         channelId: '$_country$_skill',
-        uid: 0,
+        uid: uid,
         options: const ChannelMediaOptions(
           channelProfile: ChannelProfileType.channelProfileLiveBroadcasting,
           clientRoleType: ClientRoleType.clientRoleBroadcaster,

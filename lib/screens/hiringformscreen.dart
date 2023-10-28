@@ -110,7 +110,8 @@ class HiringFormScreen extends StatelessWidget {
                       //   DateTime.now().millisecondsSinceEpoch,
                       //   'publisher',
                       // );
-                      value.joinChannel();
+                      FocusManager.instance.primaryFocus!.unfocus();
+                      value.joinChannel(DateTime.now().millisecondsSinceEpoch);
                       Navigator.push(
                         context,
                         MaterialPageRoute(
