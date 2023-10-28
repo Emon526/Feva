@@ -3,7 +3,7 @@ import 'package:provider/provider.dart';
 
 import '../consts/consts.dart';
 import '../provider/callprovider.dart';
-import '../provider/homescreenprovider.dart';
+
 import '../utils/utils.dart';
 import '../widgets/dialuserwidget.dart';
 
@@ -30,7 +30,7 @@ class CallHostScreen extends StatelessWidget {
                   height: Utils(context).getScreenSize.height * 0.1,
                 ),
                 Text(
-                  context.read<HomeScreenProvider>().hiringclicked
+                  value.hiringclicked
                       ? "Looking For ${value.skill} from ${value.country}"
                       : "Looking For ${value.skill} Project for ${value.country}",
                   style: const TextStyle(
@@ -75,13 +75,38 @@ class CallHostScreen extends StatelessWidget {
                 //   ],
                 // ),
                 // VerticalSpacing(),
-                RoundedButton(
-                  iconSrc: Icons.call_end_outlined,
-                  press: () {
-                    Navigator.pop(context);
-                  },
-                  color: Colors.red,
-                  iconColor: Colors.white,
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  children: [
+                    RoundedButton(
+                      iconSrc: value.enableSpeakerphone
+                          ? Icons.volume_up_outlined
+                          : Icons.volume_off_outlined,
+                      press: () =>
+                          value.isJoined ? value.switchSpeakerphone() : null,
+                      color: Consts.secondaryColor,
+                      iconColor: Colors.white,
+                    ),
+                    RoundedButton(
+                      iconSrc: Icons.call_end_outlined,
+                      press: () {
+                        // value.endCall();
+                        value.leaveChannel();
+                        Navigator.pop(context);
+                      },
+                      color: Colors.red,
+                      iconColor: Colors.white,
+                    ),
+                    RoundedButton(
+                      iconSrc: value.openMicrophone
+                          ? Icons.mic_rounded
+                          : Icons.mic_off_rounded,
+                      press: () =>
+                          value.isJoined ? value.switchMicrophone() : null,
+                      color: Consts.secondaryColor,
+                      iconColor: Colors.white,
+                    ),
+                  ],
                 ),
               ],
             ),

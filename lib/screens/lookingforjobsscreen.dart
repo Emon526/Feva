@@ -98,6 +98,14 @@ class LookingForJobsScreen extends StatelessWidget {
                   if (value.lookingforjobsFormKey.currentState!.validate()) {
                     print(value.country);
                     print(value.skill);
+                    value.ishiring = false;
+
+                    // value.joincall();
+                    // value.fetchToken(
+                    //   DateTime.now().millisecondsSinceEpoch,
+                    //   'audience',
+                    // );
+                    value.joinChannel();
                     Navigator.push(
                       context,
                       MaterialPageRoute(

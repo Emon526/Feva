@@ -1,7 +1,7 @@
+import 'package:feva/provider/callprovider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import '../provider/homescreenprovider.dart';
 import '../utils/utils.dart';
 import '../widgets/customsnackbar.dart';
 import '../widgets/cutombutton.dart';
@@ -14,10 +14,9 @@ class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final size = Utils(context).getScreenSize;
-    return Consumer<HomeScreenProvider>(
-      builder:
-          (BuildContext context, HomeScreenProvider value, Widget? child) =>
-              Scaffold(
+    return Consumer<CallProvider>(
+      builder: (BuildContext context, CallProvider value, Widget? child) =>
+          Scaffold(
         resizeToAvoidBottomInset: false,
         backgroundColor: Colors.white,
         body: SafeArea(

@@ -1,4 +1,38 @@
 PODS:
+  - agora_rtc_engine (6.2.4):
+    - AgoraIrisRTC_iOS (= 4.2.3-build.4)
+    - AgoraRtcEngine_iOS (= 4.2.3)
+    - Flutter
+  - AgoraIrisRTC_iOS (4.2.3-build.4)
+  - AgoraRtcEngine_iOS (4.2.3):
+    - AgoraRtcEngine_iOS/AIAEC (= 4.2.3)
+    - AgoraRtcEngine_iOS/AINS (= 4.2.3)
+    - AgoraRtcEngine_iOS/AudioBeauty (= 4.2.3)
+    - AgoraRtcEngine_iOS/ClearVision (= 4.2.3)
+    - AgoraRtcEngine_iOS/ContentInspect (= 4.2.3)
+    - AgoraRtcEngine_iOS/DRM (= 4.2.3)
+    - AgoraRtcEngine_iOS/FaceDetection (= 4.2.3)
+    - AgoraRtcEngine_iOS/ReplayKit (= 4.2.3)
+    - AgoraRtcEngine_iOS/RtcBasic (= 4.2.3)
+    - AgoraRtcEngine_iOS/SpatialAudio (= 4.2.3)
+    - AgoraRtcEngine_iOS/VideoCodecDec (= 4.2.3)
+    - AgoraRtcEngine_iOS/VideoCodecEnc (= 4.2.3)
+    - AgoraRtcEngine_iOS/VirtualBackground (= 4.2.3)
+    - AgoraRtcEngine_iOS/VQA (= 4.2.3)
+  - AgoraRtcEngine_iOS/AIAEC (4.2.3)
+  - AgoraRtcEngine_iOS/AINS (4.2.3)
+  - AgoraRtcEngine_iOS/AudioBeauty (4.2.3)
+  - AgoraRtcEngine_iOS/ClearVision (4.2.3)
+  - AgoraRtcEngine_iOS/ContentInspect (4.2.3)
+  - AgoraRtcEngine_iOS/DRM (4.2.3)
+  - AgoraRtcEngine_iOS/FaceDetection (4.2.3)
+  - AgoraRtcEngine_iOS/ReplayKit (4.2.3)
+  - AgoraRtcEngine_iOS/RtcBasic (4.2.3)
+  - AgoraRtcEngine_iOS/SpatialAudio (4.2.3)
+  - AgoraRtcEngine_iOS/VideoCodecDec (4.2.3)
+  - AgoraRtcEngine_iOS/VideoCodecEnc (4.2.3)
+  - AgoraRtcEngine_iOS/VirtualBackground (4.2.3)
+  - AgoraRtcEngine_iOS/VQA (4.2.3)
   - camera_avfoundation (0.0.1):
     - Flutter
   - face_camera (0.0.1):
@@ -43,6 +77,8 @@ PODS:
   - GoogleUtilitiesComponents (1.1.0):
     - GoogleUtilities/Logger
   - GTMSessionFetcher/Core (2.3.0)
+  - iris_method_channel (0.0.1):
+    - Flutter
   - MLImage (1.0.0-beta4)
   - MLKitCommon (9.0.0):
     - GoogleDataTransport (~> 9.0)
@@ -69,15 +105,19 @@ PODS:
   - PromisesObjC (2.3.1)
 
 DEPENDENCIES:
+  - agora_rtc_engine (from `.symlinks/plugins/agora_rtc_engine/ios`)
   - camera_avfoundation (from `.symlinks/plugins/camera_avfoundation/ios`)
   - face_camera (from `.symlinks/plugins/face_camera/ios`)
   - Flutter (from `Flutter`)
   - flutter_native_splash (from `.symlinks/plugins/flutter_native_splash/ios`)
   - google_mlkit_commons (from `.symlinks/plugins/google_mlkit_commons/ios`)
   - google_mlkit_face_detection (from `.symlinks/plugins/google_mlkit_face_detection/ios`)
+  - iris_method_channel (from `.symlinks/plugins/iris_method_channel/ios`)
 
 SPEC REPOS:
   trunk:
+    - AgoraIrisRTC_iOS
+    - AgoraRtcEngine_iOS
     - GoogleDataTransport
     - GoogleMLKit
     - GoogleToolboxForMac
@@ -92,6 +132,8 @@ SPEC REPOS:
     - PromisesObjC
 
 EXTERNAL SOURCES:
+  agora_rtc_engine:
+    :path: ".symlinks/plugins/agora_rtc_engine/ios"
   camera_avfoundation:
     :path: ".symlinks/plugins/camera_avfoundation/ios"
   face_camera:
@@ -104,8 +146,13 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/google_mlkit_commons/ios"
   google_mlkit_face_detection:
     :path: ".symlinks/plugins/google_mlkit_face_detection/ios"
+  iris_method_channel:
+    :path: ".symlinks/plugins/iris_method_channel/ios"
 
 SPEC CHECKSUMS:
+  agora_rtc_engine: fb9292d3b1eec2df31a47a2f435937e57e724648
+  AgoraIrisRTC_iOS: 84ae4f5824d68480d1215cbdd8db261549a7c94e
+  AgoraRtcEngine_iOS: eb0a7e87dbc9e818b267d413b48f76a57959e6f4
   camera_avfoundation: 3125e8cd1a4387f6f31c6c63abb8a55892a9eeeb
   face_camera: 9473f8c80e20d67bd2d946ed573ccee168d31186
   Flutter: f04841e97a9d0b0a8025694d0796dd46242b2854
@@ -118,6 +165,7 @@ SPEC CHECKSUMS:
   GoogleUtilities: 13e2c67ede716b8741c7989e26893d151b2b2084
   GoogleUtilitiesComponents: 679b2c881db3b615a2777504623df6122dd20afe
   GTMSessionFetcher: 3a63d75eecd6aa32c2fc79f578064e1214dfdec2
+  iris_method_channel: 0617c689164d8154c020c50f63ca79f92b8a7b9d
   MLImage: 7bb7c4264164ade9bf64f679b40fb29c8f33ee9b
   MLKitCommon: c1b791c3e667091918d91bda4bba69a91011e390
   MLKitFaceDetection: 4981488f71ea8ed718cda692a29ab562637d9ae5

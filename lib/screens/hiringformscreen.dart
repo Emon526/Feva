@@ -38,83 +38,91 @@ class HiringFormScreen extends StatelessWidget {
       ),
       body: Consumer<CallProvider>(
         builder: (BuildContext context, CallProvider value, Widget? child) =>
-            Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Column(
-            children: [
-              Expanded(
-                child: SingleChildScrollView(
-                  child: SafeArea(
-                    child: Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Form(
-                        key: value.hiringFormKey,
-                        child: Column(
-                          children: [
-                            InputWidget(
-                              readOnly: true,
-                              inputname:
-                                  'What Country Are You Looking to Hire Form?',
-                              textEditingController: countryController,
-                              labelText: 'Select Country',
-                              textInputType: TextInputType.text,
-                              onChanged: (value) {},
-                              onTap: () => _showDropdown(
-                                context: context,
-                                selectedCountry: value.country,
-                                onChanged: (String? newValue) {
-                                  countryController.text = newValue!;
-                                  Navigator.of(context).pop();
+            SafeArea(
+          child: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Column(
+              children: [
+                Expanded(
+                  child: SingleChildScrollView(
+                    child: SafeArea(
+                      child: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Form(
+                          key: value.hiringFormKey,
+                          child: Column(
+                            children: [
+                              InputWidget(
+                                readOnly: true,
+                                inputname:
+                                    'What Country Are You Looking to Hire Form?',
+                                textEditingController: countryController,
+                                labelText: 'Select Country',
+                                textInputType: TextInputType.text,
+                                onChanged: (value) {},
+                                onTap: () => _showDropdown(
+                                  context: context,
+                                  selectedCountry: value.country,
+                                  onChanged: (String? newValue) {
+                                    countryController.text = newValue!;
+                                    Navigator.of(context).pop();
+                                  },
+                                ),
+                                validator: RequiredValidator(
+                                  errorText: 'Input Required',
+                                ),
+                              ),
+                              SizedBox(
+                                height: size.height * 0.02,
+                              ),
+                              InputWidget(
+                                inputname: 'Skills',
+                                textEditingController: skillController,
+                                labelText: 'Type here',
+                                textInputType: TextInputType.text,
+                                textInputAction: TextInputAction.done,
+                                onChanged: (skill) {
+                                  skillController.text = skill;
                                 },
+                                onFieldSubmitted: (skill) => {
+                                  skillController.text = skill,
+                                },
+                                validator: RequiredValidator(
+                                  errorText: 'Input Required',
+                                ),
                               ),
-                              validator: RequiredValidator(
-                                errorText: 'Input Required',
-                              ),
-                            ),
-                            SizedBox(
-                              height: size.height * 0.02,
-                            ),
-                            InputWidget(
-                              inputname: 'Skills',
-                              textEditingController: skillController,
-                              labelText: 'Type here',
-                              textInputType: TextInputType.text,
-                              textInputAction: TextInputAction.done,
-                              onChanged: (skill) {
-                                skillController.text = skill;
-                              },
-                              onFieldSubmitted: (skill) => {
-                                skillController.text = skill,
-                              },
-                              validator: RequiredValidator(
-                                errorText: 'Input Required',
-                              ),
-                            ),
-                          ],
+                            ],
+                          ),
                         ),
                       ),
                     ),
                   ),
                 ),
-              ),
-              CustomButton(
-                ontap: () {
-                  if (value.hiringFormKey.currentState!.validate()) {
-                    value.skill = skillController.text;
-                    value.country = countryController.text;
-                    debugPrint(value.country);
-                    debugPrint(value.skill);
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => const CallHostScreen(),
-                      ),
-                    );
-                  }
-                },
-                buttontext: 'Continue →',
-              ),
-            ],
+                CustomButton(
+                  ontap: () {
+                    if (value.hiringFormKey.currentState!.validate()) {
+                      value.skill = skillController.text;
+                      value.country = countryController.text;
+                      debugPrint(value.country);
+                      debugPrint(value.skill);
+                      value.ishiring = true;
+                      // value.fetchToken(
+                      //   DateTime.now().millisecondsSinceEpoch,
+                      //   'publisher',
+                      // );
+                      value.joinChannel();
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => const CallHostScreen(),
+                        ),
+                      );
+                    }
+                  },
+                  buttontext: 'Continue →',
+                ),
+              ],
+            ),
           ),
         ),
       ),

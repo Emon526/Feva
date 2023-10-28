@@ -39,6 +39,10 @@ dependencies:
   flutter_native_splash: ^2.3.4
   face_camera: ^0.0.8
   form_field_validator: ^1.1.0
+  agora_rtc_engine: ^6.2.4
+  permission_handler: ^11.0.1
+  path_provider: ^2.1.1
+  http: ^1.1.0
 
 
 dev_dependencies:
