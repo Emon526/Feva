@@ -94,19 +94,15 @@ class LookingForJobsScreen extends StatelessWidget {
                 ),
               ),
               CustomButton(
-                ontap: () {
+                ontap: () async {
                   FocusManager.instance.primaryFocus!.unfocus();
                   if (value.lookingforjobsFormKey.currentState!.validate()) {
                     print(value.country);
                     print(value.skill);
                     value.ishiring = false;
 
-                    // value.joincall();
-                    // value.fetchToken(
-                    //   DateTime.now().millisecondsSinceEpoch,
-                    //   'audience',
-                    // );
-                    value.joinChannel(DateTime.now().millisecondsSinceEpoch);
+                    value.fetchToken(DateTime.now().millisecond);
+                    // value.joinChannel(DateTime.now().millisecondsSinceEpoch);
                     Navigator.push(
                       context,
                       MaterialPageRoute(

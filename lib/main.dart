@@ -27,7 +27,7 @@ class MyApp extends StatelessWidget {
     return MultiProvider(
         providers: [
           ChangeNotifierProvider(
-            create: (_) => CallProvider(),
+            create: (_) => CallProvider(context),
           ),
         ],
         builder: (context, child) {

@@ -85,15 +85,18 @@ class CallHostScreen extends StatelessWidget {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: [
-                    RoundedButton(
-                      iconSrc: value.enableSpeakerphone
-                          ? Icons.volume_up_outlined
-                          : Icons.volume_off_outlined,
-                      press: () =>
-                          value.isJoined ? value.switchSpeakerphone() : null,
-                      color: Consts.secondaryColor,
-                      iconColor: Colors.white,
-                    ),
+                    value.isRemoteJoined
+                        ? RoundedButton(
+                            iconSrc: value.enableSpeakerphone
+                                ? Icons.volume_up_outlined
+                                : Icons.volume_off_outlined,
+                            press: () => value.isJoined
+                                ? value.switchSpeakerphone()
+                                : null,
+                            color: Consts.secondaryColor,
+                            iconColor: Colors.white,
+                          )
+                        : const SizedBox(),
                     RoundedButton(
                       iconSrc: Icons.call_end_outlined,
                       press: () {
@@ -104,15 +107,18 @@ class CallHostScreen extends StatelessWidget {
                       color: Colors.red,
                       iconColor: Colors.white,
                     ),
-                    RoundedButton(
-                      iconSrc: value.openMicrophone
-                          ? Icons.mic_rounded
-                          : Icons.mic_off_rounded,
-                      press: () =>
-                          value.isJoined ? value.switchMicrophone() : null,
-                      color: Consts.secondaryColor,
-                      iconColor: Colors.white,
-                    ),
+                    value.isRemoteJoined
+                        ? RoundedButton(
+                            iconSrc: value.openMicrophone
+                                ? Icons.mic_rounded
+                                : Icons.mic_off_rounded,
+                            press: () => value.isJoined
+                                ? value.switchMicrophone()
+                                : null,
+                            color: Consts.secondaryColor,
+                            iconColor: Colors.white,
+                          )
+                        : const SizedBox(),
                   ],
                 ),
               ],

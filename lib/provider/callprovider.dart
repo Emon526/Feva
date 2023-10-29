@@ -9,8 +9,8 @@ import 'package:permission_handler/permission_handler.dart';
 import '../consts/consts.dart';
 
 class CallProvider extends ChangeNotifier {
-  CallProvider() {
-    initEngine();
+  CallProvider(BuildContext context) {
+    initEngine(context);
   }
   bool isTokenExpiring = true;
   bool _hiringclicked = false;
@@ -74,6 +74,13 @@ class CallProvider extends ChangeNotifier {
     notifyListeners();
   }
 
+  String _handelermassage = '';
+  String get handelermassage => _handelermassage;
+  set handelermassage(String value) {
+    _handelermassage = value;
+    notifyListeners();
+  }
+
   String _token = '';
   String get token => _token;
   set token(String value) {
@@ -98,7 +105,7 @@ class CallProvider extends ChangeNotifier {
   late RtcEngine _engine;
   late final RtcEngineEventHandler _rtcEngineEventHandler;
 
-  Future<void> initEngine() async {
+  Future<void> initEngine(BuildContext context) async {
     _engine = createAgoraRtcEngine();
     await _engine.initialize(const RtcEngineContext(
       appId: Consts.agoraAppId,
@@ -115,7 +122,10 @@ class CallProvider extends ChangeNotifier {
         isRemoteJoined = true;
       },
       onError: (ErrorCodeType err, String msg) {
-        log('[onError] err: $err, msg: $msg');
+        log('[onError] err: ${err.name}, msg: $msg');
+        // showMessage(context, err.name);
+        // TODO:: Show snackbar when error happens
+        handelermassage = err.name;
       },
       onUserOffline: (RtcConnection connection, int remoteUid,
           UserOfflineReasonType reason) {
@@ -151,22 +161,23 @@ class CallProvider extends ChangeNotifier {
     enableSpeakerphone = true;
   }
 
-  Future<void> fetchToken(int uid, String tokenRole) async {
+  Future<void> fetchToken(int uid) async {
     // Prepare the Url
     String url =
-        '${Consts.agoraTokenApi}/rtc/$_country$_skill/$tokenRole/uid/${uid.toString()}?expiry=${Consts.tokenExpireTime.toString()}';
+        '${Consts.agoraTokenApi}/rtc/$_country$_skill/publisher/uid/${uid.toString()}?expiry=';
     log(url);
     // Send the request
     final response = await http.get(Uri.parse(url));
 
     if (response.statusCode == 200) {
       // If the server returns an OK response, then parse the JSON.
-      Map<String, dynamic> json = jsonDecode(response.body);
+      Map<String, dynamic> json = await jsonDecode(response.body);
       String newToken = json['rtcToken'];
       debugPrint('Token Received: $newToken');
       log('Token Received: $newToken');
       // Use the token to join a channel or renew an expiring token
-      setToken(newToken, uid);
+      // setToken(newToken, uid);
+      await joinChannel(uid, newToken);
     } else {
       // If the server did not return an OK response,
       // then throw an exception.
@@ -180,25 +191,18 @@ class CallProvider extends ChangeNotifier {
 
     if (isTokenExpiring) {
       // Renew the token
-      _engine.renewToken(_token);
+      await _engine.renewToken(_token);
+
       isTokenExpiring = false;
       log("Token renewed");
-    } else {
-      // Join a channel.
-      log("Token received, joining a channel...");
-      // _joinChannel();
-      // await _engine.joinChannel(
-      //   token: token,
-      //   channelId: '$_country$_skill',
-      //   uid: uid,
-      //   options: const ChannelMediaOptions(
-      //       channelProfile: ChannelProfileType.channelProfileLiveBroadcasting,
-      //       clientRoleType: ClientRoleType.clientRoleBroadcaster),
-      // );
+      await joinChannel(uid, _token);
     }
+    // Join a channel.
+    log("Token received, joining a channel...");
+    await joinChannel(uid, _token);
   }
 
-  joinChannel(int uid) async {
+  joinChannel(int uid, String token) async {
     if (await Permission.microphone.isDenied ||
         await Permission.microphone.isLimited ||
         await Permission.microphone.isPermanentlyDenied ||
@@ -208,7 +212,8 @@ class CallProvider extends ChangeNotifier {
     }
 
     await _engine.joinChannel(
-        token: Consts.agoraToken,
+        // token: Consts.agoraToken,
+        token: token,
         channelId: '$_country$_skill',
         uid: uid,
         options: const ChannelMediaOptions(
@@ -227,4 +232,9 @@ class CallProvider extends ChangeNotifier {
 
     enableSpeakerphone = !_enableSpeakerphone;
   }
+
+  // showMessage(BuildContext context, String massage) {
+  //   CustomSnackbar.show(
+  //       context: context, message: massage, snackbarColor: Colors.red);
+  // }
 }
