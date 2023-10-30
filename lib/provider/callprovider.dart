@@ -7,16 +7,25 @@ import 'package:http/http.dart' as http;
 import 'package:permission_handler/permission_handler.dart';
 
 import '../consts/consts.dart';
+import '../widgets/customsnackbar.dart';
 
 class CallProvider extends ChangeNotifier {
-  CallProvider(BuildContext context) {
-    initEngine(context);
+  CallProvider() {
+    initEngine();
   }
-  bool isTokenExpiring = true;
+  final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
+
   bool _hiringclicked = false;
   bool get hiringclicked => _hiringclicked;
   set hiringclicked(value) {
     _hiringclicked = value;
+    notifyListeners();
+  }
+
+  bool _isfatchedtoken = false;
+  bool get isfatchedtoken => _isfatchedtoken;
+  set isfatchedtoken(value) {
+    _isfatchedtoken = value;
     notifyListeners();
   }
 
@@ -74,13 +83,6 @@ class CallProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  String _handelermassage = '';
-  String get handelermassage => _handelermassage;
-  set handelermassage(String value) {
-    _handelermassage = value;
-    notifyListeners();
-  }
-
   String _token = '';
   String get token => _token;
   set token(String value) {
@@ -105,7 +107,7 @@ class CallProvider extends ChangeNotifier {
   late RtcEngine _engine;
   late final RtcEngineEventHandler _rtcEngineEventHandler;
 
-  Future<void> initEngine(BuildContext context) async {
+  Future<void> initEngine() async {
     _engine = createAgoraRtcEngine();
     await _engine.initialize(const RtcEngineContext(
       appId: Consts.agoraAppId,
@@ -116,29 +118,30 @@ class CallProvider extends ChangeNotifier {
         log("local user ${connection.localUid} joined");
 
         isJoined = true;
+        showSnackbar('Call Hosted', Colors.green);
       },
       onUserJoined: (RtcConnection connection, int remoteUid, int elapsed) {
         log("remote user $remoteUid joined");
         isRemoteJoined = true;
+        showSnackbar('User Joined', Colors.green);
       },
       onError: (ErrorCodeType err, String msg) {
         log('[onError] err: ${err.name}, msg: $msg');
-        // showMessage(context, err.name);
-        // TODO:: Show snackbar when error happens
-        handelermassage = err.name;
+
+        showSnackbar(err.name, Colors.red);
       },
       onUserOffline: (RtcConnection connection, int remoteUid,
           UserOfflineReasonType reason) {
         log("remote user $remoteUid left channel");
         isRemoteJoined = false;
+        showSnackbar('User left channel', Colors.red);
       },
       onTokenPrivilegeWillExpire: (RtcConnection connection, String token) {
         log('[onTokenPrivilegeWillExpire] connection: ${connection.toJson()}, token: $token');
       },
       onLeaveChannel: (RtcConnection connection, RtcStats stats) {
         log('[onLeaveChannel] connection: ${connection.toJson()} stats: ${stats.toJson()}');
-        // isJoined = false;
-
+        showSnackbar('Call Disconnected', Colors.red);
         isJoined = false;
       },
     );
@@ -159,12 +162,15 @@ class CallProvider extends ChangeNotifier {
     isJoined = false;
     openMicrophone = true;
     enableSpeakerphone = true;
+    isRemoteJoined = false;
+    isfatchedtoken = false;
+    _country = 'Canada';
+    _skill = '';
   }
 
   Future<void> fetchToken(int uid) async {
     // Prepare the Url
-    String url =
-        '${Consts.agoraTokenApi}/rtc/$_country$_skill/publisher/uid/${uid.toString()}?expiry=';
+    String url = buildAgoraTokenApi(_country, _skill, uid);
     log(url);
     // Send the request
     final response = await http.get(Uri.parse(url));
@@ -175,6 +181,7 @@ class CallProvider extends ChangeNotifier {
       String newToken = json['rtcToken'];
       debugPrint('Token Received: $newToken');
       log('Token Received: $newToken');
+      isfatchedtoken = true;
       // Use the token to join a channel or renew an expiring token
       // setToken(newToken, uid);
       await joinChannel(uid, newToken);
@@ -186,21 +193,33 @@ class CallProvider extends ChangeNotifier {
     }
   }
 
-  void setToken(String newToken, int uid) async {
-    _token = newToken;
+  String buildAgoraTokenApi(String country, String skill, int uid) {
+    // Remove spaces and convert to lowercase for $_country and $_skill
+    _country = country.replaceAll(' ', '').toLowerCase();
+    _skill = skill.replaceAll(' ', '').toLowerCase();
 
-    if (isTokenExpiring) {
-      // Renew the token
-      await _engine.renewToken(_token);
-
-      isTokenExpiring = false;
-      log("Token renewed");
-      await joinChannel(uid, _token);
-    }
-    // Join a channel.
-    log("Token received, joining a channel...");
-    await joinChannel(uid, _token);
+    // Construct the final URL
+    String agoraTokenApi =
+        '${Consts.agoraTokenApi}/rtc/$_country$_skill/publisher/uid/${uid.toString()}?expiry=';
+    log(agoraTokenApi);
+    return agoraTokenApi;
   }
+
+  // void setToken(String newToken, int uid) async {
+  //   _token = newToken;
+
+  //   if (isTokenExpiring) {
+  //     // Renew the token
+  //     await _engine.renewToken(_token);
+
+  //     isTokenExpiring = false;
+  //     log("Token renewed");
+  //     await joinChannel(uid, _token);
+  //   }
+  //   // Join a channel.
+  //   log("Token received, joining a channel...");
+  //   await joinChannel(uid, _token);
+  // }
 
   joinChannel(int uid, String token) async {
     if (await Permission.microphone.isDenied ||
@@ -233,8 +252,10 @@ class CallProvider extends ChangeNotifier {
     enableSpeakerphone = !_enableSpeakerphone;
   }
 
-  // showMessage(BuildContext context, String massage) {
-  //   CustomSnackbar.show(
-  //       context: context, message: massage, snackbarColor: Colors.red);
-  // }
+  void showSnackbar(String massage, Color color) {
+    CustomSnackbar.show(
+        context: scaffoldKey.currentContext!,
+        message: massage,
+        snackbarColor: color);
+  }
 }

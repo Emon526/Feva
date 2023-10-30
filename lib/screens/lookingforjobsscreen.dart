@@ -97,8 +97,6 @@ class LookingForJobsScreen extends StatelessWidget {
                 ontap: () async {
                   FocusManager.instance.primaryFocus!.unfocus();
                   if (value.lookingforjobsFormKey.currentState!.validate()) {
-                    print(value.country);
-                    print(value.skill);
                     value.ishiring = false;
 
                     value.fetchToken(DateTime.now().millisecond);

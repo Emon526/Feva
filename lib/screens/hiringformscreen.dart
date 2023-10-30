@@ -103,12 +103,9 @@ class HiringFormScreen extends StatelessWidget {
                     if (value.hiringFormKey.currentState!.validate()) {
                       value.skill = skillController.text;
                       value.country = countryController.text;
-                      debugPrint(value.country);
-                      debugPrint(value.skill);
                       value.ishiring = true;
 
                       FocusManager.instance.primaryFocus!.unfocus();
-                      // value.joinChannel(DateTime.now().millisecondsSinceEpoch);
                       value.fetchToken(DateTime.now().millisecond);
                       Navigator.push(
                         context,

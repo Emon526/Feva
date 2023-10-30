@@ -15,6 +15,7 @@ class CallHostScreen extends StatelessWidget {
     return Consumer<CallProvider>(
       builder: (BuildContext context, CallProvider value, Widget? child) =>
           Scaffold(
+        key: value.scaffoldKey,
         resizeToAvoidBottomInset: false,
         backgroundColor: Colors.white,
         body: SafeArea(
@@ -39,12 +40,17 @@ class CallHostScreen extends StatelessWidget {
                 //   ),
                 // ),
                 Text(
-                  value.isRemoteJoined ? "Connected" : "Searching",
+                  value.isRemoteJoined
+                      ? "Connected"
+                      : value.isfatchedtoken
+                          ? "Searching"
+                          : "Connecting",
                   style: const TextStyle(
                     color: Consts.secondaryColor,
                     fontWeight: FontWeight.w500,
                   ),
                 ),
+
                 const Spacer(),
                 // Wrap(
                 //   alignment: WrapAlignment.spaceBetween,

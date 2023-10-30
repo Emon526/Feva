@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 
+import '../consts/consts.dart';
 import '../provider/callprovider.dart';
 import '../utils/utils.dart';
 import 'homescreen.dart';
@@ -28,50 +29,64 @@ class FaceVerificatuonScreen extends StatelessWidget {
               Builder(
             builder: (context) {
               if (value.image != null) {
-                return Center(
-                  child: Stack(
-                    alignment: Alignment.bottomCenter,
-                    children: [
-                      Image.file(
+                return Stack(
+                  alignment: Alignment.bottomCenter,
+                  children: [
+                    Transform(
+                      alignment: Alignment.center,
+                      transform:
+                          Matrix4.rotationY(3.141), // Mirror horizontally
+                      child: Image.file(
                         value.image!,
+                        // width: Utils(context).getScreenSize.width,
+                        height: Utils(context).getScreenSize.height,
                         width: double.maxFinite,
-                        fit: BoxFit.fitWidth,
+                        fit: BoxFit.fitHeight,
                       ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceAround,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          ElevatedButton(
-                            onPressed: () => value.image = null,
-                            child: const Text(
-                              'Capture Again',
-                              textAlign: TextAlign.center,
-                              style: TextStyle(
-                                  fontSize: 14, fontWeight: FontWeight.w700),
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        ElevatedButton(
+                          style: const ButtonStyle(
+                              backgroundColor: MaterialStatePropertyAll(
+                                  Consts.primaryColor)),
+                          onPressed: () => value.image = null,
+                          child: const Text(
+                            'Capture Again',
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                                fontSize: 14, fontWeight: FontWeight.w700),
+                          ),
+                        ),
+                        ElevatedButton(
+                          style: const ButtonStyle(
+                              backgroundColor: MaterialStatePropertyAll(
+                                  Consts.primaryColor)),
+                          onPressed: () => Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => const HomeScreen(),
                             ),
                           ),
-                          ElevatedButton(
-                            onPressed: () => Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => const HomeScreen(),
-                              ),
-                            ),
-                            child: const Text(
-                              'Confirm Image',
-                              textAlign: TextAlign.center,
-                              style: TextStyle(
-                                  fontSize: 14, fontWeight: FontWeight.w700),
-                            ),
-                          )
-                        ],
-                      ),
-                    ],
-                  ),
+                          child: const Text(
+                            'Confirm Image',
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                                fontSize: 14, fontWeight: FontWeight.w700),
+                          ),
+                        )
+                      ],
+                    ),
+                  ],
                 );
               }
+
               return SmartFaceCamera(
-                  autoCapture: true,
+                  // autoCapture: true,
+                  imageResolution: ImageResolution.high,
+                  defaultFlashMode: CameraFlashMode.off,
                   defaultCameraLens: CameraLens.front,
                   onCapture: (File? image) {
                     value.image = image;
@@ -85,7 +100,7 @@ class FaceVerificatuonScreen extends StatelessWidget {
                       return _message('Place your face in the camera');
                     }
                     if (!face.wellPositioned) {
-                      return _message('Center your face in the square');
+                      return _message('Center your face in the Circle');
                     }
                     return const SizedBox.shrink();
                   });
@@ -101,6 +116,10 @@ class FaceVerificatuonScreen extends StatelessWidget {
         child: Text(msg,
             textAlign: TextAlign.center,
             style: const TextStyle(
-                fontSize: 14, height: 1.5, fontWeight: FontWeight.w400)),
+              fontSize: 14,
+              height: 1.5,
+              fontWeight: FontWeight.w400,
+              color: Colors.white,
+            )),
       );
 }
