@@ -98,9 +98,9 @@ class LookingForJobsScreen extends StatelessWidget {
                   FocusManager.instance.primaryFocus!.unfocus();
                   if (value.lookingforjobsFormKey.currentState!.validate()) {
                     value.ishiring = false;
-
-                    value.fetchToken(DateTime.now().millisecond);
-                    // value.joinChannel(DateTime.now().millisecondsSinceEpoch);
+                    //TODO:Fix User UID
+                    //  value.fetchToken(DateTime.now().millisecond);
+                    value.fetchToken(0);
                     Navigator.push(
                       context,
                       MaterialPageRoute(

@@ -1,0 +1,30 @@
+{
+  "project_info": {
+    "project_number": "920532522992",
+    "firebase_url": "https://fevevoice-default-rtdb.asia-southeast1.firebasedatabase.app",
+    "project_id": "fevevoice",
+    "storage_bucket": "fevevoice.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:920532522992:android:7262cd669a49061761ef35",
+        "android_client_info": {
+          "package_name": "feva.voicecall.hiring"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDCcdEcDCs3xY6C22ftBDUVJHrQo45dkzE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

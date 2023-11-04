@@ -99,14 +99,16 @@ class HiringFormScreen extends StatelessWidget {
                   ),
                 ),
                 CustomButton(
-                  ontap: () {
+                  ontap: () async {
                     if (value.hiringFormKey.currentState!.validate()) {
                       value.skill = skillController.text;
                       value.country = countryController.text;
                       value.ishiring = true;
 
                       FocusManager.instance.primaryFocus!.unfocus();
-                      value.fetchToken(DateTime.now().millisecond);
+                      //TODO:Fix User UID
+                      //  value.fetchToken(DateTime.now().millisecond);
+                      value.fetchToken(0);
                       Navigator.push(
                         context,
                         MaterialPageRoute(

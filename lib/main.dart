@@ -1,12 +1,14 @@
 import 'package:face_camera/face_camera.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:provider/provider.dart';
 
 import 'consts/consts.dart';
+import 'firebase_options.dart';
 import 'provider/callprovider.dart';
-import 'screens/faceverficationscreen.dart';
+import 'screens/homescreen.dart';
 
 void main() async {
   WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
@@ -16,6 +18,9 @@ void main() async {
       statusBarIconBrightness: Brightness.dark));
   FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
   await FaceCamera.initialize();
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
   runApp(const MyApp());
 }
 
@@ -36,7 +41,7 @@ class MyApp extends StatelessWidget {
             themeMode: ThemeMode.system,
             debugShowCheckedModeBanner: false,
             title: Consts.appName,
-            home: FaceVerificatuonScreen(),
+            home: HomeScreen(),
           );
         });
   }

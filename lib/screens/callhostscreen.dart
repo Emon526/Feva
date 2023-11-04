@@ -105,10 +105,10 @@ class CallHostScreen extends StatelessWidget {
                         : const SizedBox(),
                     RoundedButton(
                       iconSrc: Icons.call_end_outlined,
-                      press: () {
-                        // value.endCall();
-                        value.leaveChannel();
-                        Navigator.pop(context);
+                      press: () async {
+                        await value
+                            .leaveChannel()
+                            .then((value) => Navigator.pop(context));
                       },
                       color: Colors.red,
                       iconColor: Colors.white,
@@ -138,13 +138,13 @@ class CallHostScreen extends StatelessWidget {
 
 class RoundedButton extends StatelessWidget {
   const RoundedButton({
-    Key? key,
+    super.key,
     this.size = 64,
     required this.iconSrc,
     this.color = Consts.primaryColor,
     this.iconColor = Colors.black,
     required this.press,
-  }) : super(key: key);
+  });
 
   final double size;
   final IconData iconSrc;
@@ -177,11 +177,11 @@ class RoundedButton extends StatelessWidget {
 
 class DialButton extends StatelessWidget {
   const DialButton({
-    Key? key,
+    super.key,
     required this.iconSrc,
     required this.text,
     required this.press,
-  }) : super(key: key);
+  });
 
   final String iconSrc, text;
   final VoidCallback press;
