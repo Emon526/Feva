@@ -18,7 +18,35 @@ class CallProvider extends ChangeNotifier {
   }
   final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
+  List<String> countryList = <String>[
+    'Canada',
+    'United States',
+    'India',
+    'Philippines',
+    'Pakistan',
+    'Venezuela',
+  ];
 
+  List<String> skillList = <String>[
+    'Website builder',
+    'Virtual assistant',
+    'App builder and design',
+    'Video editing',
+    '2d-3d Animation',
+    'Logo design',
+    'Photographer',
+    'Arcitect',
+    'Digital marketing',
+    'Language lesson',
+    'Online tutoring',
+    'Life coach',
+    'Fitness coach',
+    'Nutrition coach',
+    'Astrology',
+    'Manufacturing',
+    'Business consultant',
+    'Book covers',
+  ];
   bool _isTokenExpiring = true;
   bool get isTokenExpiring => _isTokenExpiring;
   set isTokenExpiring(value) {
@@ -87,7 +115,7 @@ class CallProvider extends ChangeNotifier {
   final _lookingforjobsFormKey = GlobalKey<FormState>();
   get lookingforjobsFormKey => _lookingforjobsFormKey;
 
-  String _country = 'Canada';
+  String _country = '';
   String get country => _country;
   set country(String value) {
     _country = value;
@@ -216,7 +244,7 @@ class CallProvider extends ChangeNotifier {
     isRemoteJoined = false;
     isfatchedtoken = false;
     isTokenExpiring = true;
-    _country = 'Canada';
+    // _country = 'Canada';
   }
 
   Future<void> deleteTokenFromFirestore(
@@ -334,6 +362,7 @@ class CallProvider extends ChangeNotifier {
         await Permission.microphone.isRestricted) {
       await Permission.microphone.request();
     }
+    //TODO:Fix ChannelProfileType
     await _engine.joinChannel(
       token: token,
       channelId: '$_country$_skill',

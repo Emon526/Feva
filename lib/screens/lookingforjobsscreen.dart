@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:form_field_validator/form_field_validator.dart';
 import 'package:provider/provider.dart';
 
+import '../consts/consts.dart';
 import '../provider/callprovider.dart';
 import '../utils/utils.dart';
 import '../widgets/custominputwidget.dart';
@@ -55,14 +56,13 @@ class LookingForJobsScreen extends StatelessWidget {
                               inputname: 'Where are you Form?',
                               textEditingController: countryController,
                               labelText: 'Select Country',
-                              textInputType: TextInputType.text,
-                              onChanged: (value) {},
-                              onTap: () => _showDropdown(
+                              onTap: () => _showCountryPicker(
                                 context: context,
+                                countryList: value.countryList,
                                 selectedCountry: value.country,
                                 onChanged: (String? newValue) {
-                                  value.country = newValue!;
-                                  countryController.text = newValue;
+                                  countryController.text = newValue!;
+                                  value.country = newValue;
                                   Navigator.of(context).pop();
                                 },
                               ),
@@ -74,14 +74,20 @@ class LookingForJobsScreen extends StatelessWidget {
                               height: size.height * 0.02,
                             ),
                             InputWidget(
+                              readOnly: true,
                               inputname: 'Skills',
                               textEditingController: skillController,
-                              labelText: 'Type here',
-                              textInputType: TextInputType.text,
-                              onChanged: (skill) {
-                                value.skill = skill;
-                              },
-                              onFieldSubmitted: (skill) => value.skill = skill,
+                              labelText: 'Select Skill',
+                              onTap: () => _showSkillPicker(
+                                context: context,
+                                skillList: value.skillList,
+                                selectedSkill: value.skill,
+                                onChanged: (String? newValue) {
+                                  skillController.text = newValue!;
+                                  value.skill = newValue;
+                                  Navigator.of(context).pop();
+                                },
+                              ),
                               validator: RequiredValidator(
                                 errorText: 'Input Required',
                               ),
@@ -118,63 +124,71 @@ class LookingForJobsScreen extends StatelessWidget {
     );
   }
 
-  void _showDropdown(
+  _showCountryPicker(
       {required BuildContext context,
       required String selectedCountry,
-      required Function(String?)? onChanged}) {
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        List<String> options = <String>[
-          'Canada',
-          'United States',
-          'India',
-          'Philippines',
-          'Pakistan',
-          'Venezuela'
-        ];
-        return AlertDialog(
-          content: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: <Widget>[
-              Container(
-                // width: 200,
-                decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.circular(16)),
-                padding: const EdgeInsets.symmetric(horizontal: 10),
-                child: DropdownButton<String>(
-                  value: selectedCountry,
-                  onChanged: onChanged,
-
-                  underline: const SizedBox(),
-                  isExpanded: true,
-                  style: const TextStyle(color: Colors.black),
-                  // dropdownColor: AppColors.kWhite,
-                  icon: const Icon(Icons.keyboard_arrow_down,
-                      color: Colors.black),
-                  selectedItemBuilder: (BuildContext context) {
-                    return options.map((String value) {
-                      return Align(
-                        alignment: Alignment.centerLeft,
-                        child: Text(
-                          selectedCountry,
-                        ),
-                      );
-                    }).toList();
-                  },
-                  items: options.map<DropdownMenuItem<String>>((String value) {
-                    return DropdownMenuItem<String>(
-                      value: value,
-                      child: Text(value),
-                    );
-                  }).toList(),
-                ),
+      required Function(String?)? onChanged,
+      required List<String> countryList}) {
+    Utils(context).showCustomDialog(
+      child: ListView.builder(
+        shrinkWrap: true,
+        itemCount: countryList.length,
+        itemBuilder: (BuildContext context, int index) {
+          final option = countryList[index];
+          return ListTile(
+            title: Text(
+              option,
+              style: TextStyle(
+                color: option == selectedCountry
+                    ? Colors
+                        .white // You can change the color for the selected item
+                    : Colors.black,
               ),
-            ],
-          ),
-        );
-      },
+            ),
+            tileColor: option == selectedCountry
+                ? Consts
+                    .secondaryColor // You can change the color for the selected item
+                : Colors.white,
+            onTap: () {
+              onChanged!(option);
+            },
+          );
+        },
+      ),
+    );
+  }
+
+  _showSkillPicker(
+      {required BuildContext context,
+      required String selectedSkill,
+      required Function(String?)? onChanged,
+      required List<String> skillList}) {
+    Utils(context).showCustomDialog(
+      child: ListView.builder(
+        shrinkWrap: true,
+        itemCount: skillList.length,
+        itemBuilder: (BuildContext context, int index) {
+          final option = skillList[index];
+          return ListTile(
+            title: Text(
+              option,
+              style: TextStyle(
+                color: option == selectedSkill
+                    ? Colors
+                        .white // You can change the color for the selected item
+                    : Colors.black,
+              ),
+            ),
+            tileColor: option == selectedSkill
+                ? Consts
+                    .secondaryColor // You can change the color for the selected item
+                : Colors.white,
+            onTap: () {
+              onChanged!(option);
+            },
+          );
+        },
+      ),
     );
   }
 }

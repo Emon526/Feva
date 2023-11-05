@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:form_field_validator/form_field_validator.dart';
 import 'package:provider/provider.dart';
 
+import '../consts/consts.dart';
 import '../provider/callprovider.dart';
 import '../utils/utils.dart';
 import '../widgets/custominputwidget.dart';
@@ -52,19 +53,39 @@ class HiringFormScreen extends StatelessWidget {
                           key: value.hiringFormKey,
                           child: Column(
                             children: [
+                              // InputWidget(
+                              //   readOnly: true,
+                              //   inputname:
+                              //       'What Country Are You Looking to Hire Form?',
+                              //   textEditingController: countryController,
+                              //   labelText: 'Select Country',
+                              //   textInputType: TextInputType.text,
+                              //   onChanged: (value) {},
+                              //   onTap: () => _showDropdown(
+                              //     context: context,
+                              //     selectedCountry: value.country,
+                              //     onChanged: (String? newValue) {
+                              //       countryController.text = newValue!;
+                              //       Navigator.of(context).pop();
+                              //     },
+                              //   ),
+                              //   validator: RequiredValidator(
+                              //     errorText: 'Input Required',
+                              //   ),
+                              // ),
                               InputWidget(
                                 readOnly: true,
                                 inputname:
                                     'What Country Are You Looking to Hire Form?',
                                 textEditingController: countryController,
                                 labelText: 'Select Country',
-                                textInputType: TextInputType.text,
-                                onChanged: (value) {},
-                                onTap: () => _showDropdown(
+                                onTap: () => _showCountryPicker(
                                   context: context,
+                                  countryList: value.countryList,
                                   selectedCountry: value.country,
                                   onChanged: (String? newValue) {
                                     countryController.text = newValue!;
+                                    value.country = newValue;
                                     Navigator.of(context).pop();
                                   },
                                 ),
@@ -75,18 +96,22 @@ class HiringFormScreen extends StatelessWidget {
                               SizedBox(
                                 height: size.height * 0.02,
                               ),
+
                               InputWidget(
-                                inputname: 'Skills',
+                                readOnly: true,
+                                inputname: 'Skill',
                                 textEditingController: skillController,
-                                labelText: 'Type here',
-                                textInputType: TextInputType.text,
-                                textInputAction: TextInputAction.done,
-                                onChanged: (skill) {
-                                  skillController.text = skill;
-                                },
-                                onFieldSubmitted: (skill) => {
-                                  skillController.text = skill,
-                                },
+                                labelText: 'Select Skill',
+                                onTap: () => _showSkillPicker(
+                                  context: context,
+                                  skillList: value.skillList,
+                                  selectedSkill: value.skill,
+                                  onChanged: (String? newValue) {
+                                    skillController.text = newValue!;
+                                    value.skill = newValue;
+                                    Navigator.of(context).pop();
+                                  },
+                                ),
                                 validator: RequiredValidator(
                                   errorText: 'Input Required',
                                 ),
@@ -127,46 +152,71 @@ class HiringFormScreen extends StatelessWidget {
     );
   }
 
-  _showDropdown(
+  _showCountryPicker(
       {required BuildContext context,
       required String selectedCountry,
-      required Function(String?)? onChanged}) {
-    List<String> options = <String>[
-      'Canada',
-      'United States',
-      'India',
-      'Philippines',
-      'Pakistan',
-      'Venezuela'
-    ];
+      required Function(String?)? onChanged,
+      required List<String> countryList}) {
     Utils(context).showCustomDialog(
-        child: Container(
-            decoration: BoxDecoration(
-                color: Colors.white, borderRadius: BorderRadius.circular(16)),
-            padding: const EdgeInsets.symmetric(horizontal: 10),
-            child: DropdownButton<String>(
-              value: selectedCountry,
-              onChanged: onChanged,
-              underline: const SizedBox(),
-              isExpanded: true,
-              style: const TextStyle(color: Colors.black),
-              icon: const Icon(Icons.keyboard_arrow_down, color: Colors.black),
-              selectedItemBuilder: (BuildContext context) {
-                return options.map((String value) {
-                  return Align(
-                    alignment: Alignment.centerLeft,
-                    child: Text(
-                      selectedCountry,
-                    ),
-                  );
-                }).toList();
-              },
-              items: options.map<DropdownMenuItem<String>>((String value) {
-                return DropdownMenuItem<String>(
-                  value: value,
-                  child: Text(value),
-                );
-              }).toList(),
-            )));
+      child: ListView.builder(
+        shrinkWrap: true,
+        itemCount: countryList.length,
+        itemBuilder: (BuildContext context, int index) {
+          final option = countryList[index];
+          return ListTile(
+            title: Text(
+              option,
+              style: TextStyle(
+                color: option == selectedCountry
+                    ? Colors
+                        .white // You can change the color for the selected item
+                    : Colors.black,
+              ),
+            ),
+            tileColor: option == selectedCountry
+                ? Consts
+                    .secondaryColor // You can change the color for the selected item
+                : Colors.white,
+            onTap: () {
+              onChanged!(option);
+            },
+          );
+        },
+      ),
+    );
+  }
+
+  _showSkillPicker(
+      {required BuildContext context,
+      required String selectedSkill,
+      required Function(String?)? onChanged,
+      required List<String> skillList}) {
+    Utils(context).showCustomDialog(
+      child: ListView.builder(
+        shrinkWrap: true,
+        itemCount: skillList.length,
+        itemBuilder: (BuildContext context, int index) {
+          final option = skillList[index];
+          return ListTile(
+            title: Text(
+              option,
+              style: TextStyle(
+                color: option == selectedSkill
+                    ? Colors
+                        .white // You can change the color for the selected item
+                    : Colors.black,
+              ),
+            ),
+            tileColor: option == selectedSkill
+                ? Consts
+                    .secondaryColor // You can change the color for the selected item
+                : Colors.white,
+            onTap: () {
+              onChanged!(option);
+            },
+          );
+        },
+      ),
+    );
   }
 }

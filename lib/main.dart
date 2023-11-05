@@ -9,6 +9,7 @@ import 'consts/consts.dart';
 import 'firebase_options.dart';
 import 'provider/callprovider.dart';
 import 'screens/homescreen.dart';
+import 'utils/utils.dart';
 
 void main() async {
   WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
@@ -26,7 +27,6 @@ void main() async {
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
-
   @override
   Widget build(BuildContext context) {
     return MultiProvider(
@@ -37,6 +37,7 @@ class MyApp extends StatelessWidget {
         ],
         builder: (context, child) {
           removesplash();
+          Utils(context).checkPermissions();
           return const MaterialApp(
             themeMode: ThemeMode.system,
             debugShowCheckedModeBanner: false,

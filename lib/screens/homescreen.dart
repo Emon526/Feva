@@ -39,7 +39,7 @@ class HomeScreen extends StatelessWidget {
                     },
                     buttontext: 'i\'m hiring',
                     buttoncolor: value.hiringclicked ? null : Colors.white,
-                    iconData: Icons.abc,
+                    // iconData: Icons.abc,
                   ),
                   SizedBox(
                     height: size.height * 0.01,
@@ -51,7 +51,7 @@ class HomeScreen extends StatelessWidget {
                     },
                     buttontext: 'Looking for jobs',
                     buttoncolor: value.lookingjobsclicked ? null : Colors.white,
-                    iconData: Icons.access_alarm_outlined,
+                    // iconData: Icons.access_alarm_outlined,
                   ),
                   const Spacer(),
                   CustomButton(

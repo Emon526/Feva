@@ -7,9 +7,7 @@ class InputWidget extends StatelessWidget {
   final TextEditingController textEditingController;
   final String labelText;
   final TextInputAction? textInputAction;
-  final TextInputType textInputType;
-  final void Function(String)? onChanged;
-  final void Function(String)? onFieldSubmitted;
+
   final void Function()? onTap;
   final String? Function(String?) validator;
   final bool? readOnly;
@@ -21,10 +19,7 @@ class InputWidget extends StatelessWidget {
     required this.labelText,
     required this.inputname,
     this.textInputAction,
-    required this.textInputType,
-    required this.onChanged,
     required this.validator,
-    this.onFieldSubmitted,
     this.onTap,
     this.readOnly,
   });
@@ -49,7 +44,6 @@ class InputWidget extends StatelessWidget {
           validator: validator,
           controller: textEditingController,
           textInputAction: textInputAction ?? TextInputAction.next,
-          keyboardType: textInputType,
           textCapitalization: TextCapitalization.words,
           decoration: InputDecoration(
             filled: true,
@@ -64,8 +58,6 @@ class InputWidget extends StatelessWidget {
             focusedBorder: const OutlineInputBorder(
                 borderSide: BorderSide(color: Consts.primaryColor)),
           ),
-          onChanged: onChanged,
-          onFieldSubmitted: onFieldSubmitted,
           onTap: onTap,
         ),
       ],
