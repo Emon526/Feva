@@ -7,8 +7,6 @@ import 'package:provider/provider.dart';
 import '../consts/consts.dart';
 import '../provider/callprovider.dart';
 import '../utils/utils.dart';
-import 'hiringformscreen.dart';
-import 'lookingforjobsscreen.dart';
 
 class FaceVerificatuonScreen extends StatelessWidget {
   const FaceVerificatuonScreen({super.key});
@@ -30,7 +28,6 @@ class FaceVerificatuonScreen extends StatelessWidget {
                     transform: Matrix4.rotationY(3.141), // Mirror horizontally
                     child: Image.file(
                       value.image!,
-                      // width: Utils(context).getScreenSize.width,
                       height: Utils(context).getScreenSize.height,
                       width: double.maxFinite,
                       fit: BoxFit.fitHeight,
@@ -57,22 +54,7 @@ class FaceVerificatuonScreen extends StatelessWidget {
                             backgroundColor:
                                 MaterialStatePropertyAll(Consts.primaryColor)),
                         onPressed: () {
-                          if (value.hiringclicked) {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => HiringFormScreen(),
-                              ),
-                            );
-                          }
-                          if (value.lookingjobsclicked) {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => LookingForJobsScreen(),
-                              ),
-                            );
-                          }
+                          Navigator.pop(context);
                         },
                         child: const Text(
                           'Confirm Image',

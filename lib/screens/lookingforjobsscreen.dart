@@ -7,7 +7,9 @@ import '../provider/callprovider.dart';
 import '../utils/utils.dart';
 import '../widgets/custominputwidget.dart';
 import '../widgets/cutombutton.dart';
+import '../widgets/dialuserwidget.dart';
 import 'callhostscreen.dart';
+import 'faceverficationscreen.dart';
 
 class LookingForJobsScreen extends StatelessWidget {
   final countryController = TextEditingController();
@@ -92,6 +94,24 @@ class LookingForJobsScreen extends StatelessWidget {
                                 errorText: 'Input Required',
                               ),
                             ),
+                            SizedBox(
+                              height: size.height * 0.03,
+                            ),
+                            value.image == null
+                                ? CustomButton(
+                                    ontap: () {
+                                      Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                          builder: (context) =>
+                                              const FaceVerificatuonScreen(),
+                                        ),
+                                      );
+                                    },
+                                    buttontext: 'Press to Take Photo',
+                                  )
+                                : DialUserPic(
+                                    image: context.read<CallProvider>().image!),
                           ],
                         ),
                       ),
@@ -99,24 +119,27 @@ class LookingForJobsScreen extends StatelessWidget {
                   ),
                 ),
               ),
-              CustomButton(
-                ontap: () async {
-                  FocusManager.instance.primaryFocus!.unfocus();
-                  if (value.lookingforjobsFormKey.currentState!.validate()) {
-                    value.ishiring = false;
-                    //TODO:Fix User UID
-                    //  value.fetchToken(DateTime.now().millisecond);
-                    value.fetchToken(0);
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => const CallHostScreen(),
-                      ),
-                    );
-                  }
-                },
-                buttontext: 'Continue →',
-              ),
+              value.image != null
+                  ? CustomButton(
+                      ontap: () async {
+                        FocusManager.instance.primaryFocus!.unfocus();
+                        if (value.lookingforjobsFormKey.currentState!
+                            .validate()) {
+                          value.ishiring = false;
+                          //TODO:Fix User UID
+                          //  value.fetchToken(DateTime.now().millisecond);
+                          value.fetchToken(0);
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => const CallHostScreen(),
+                            ),
+                          );
+                        }
+                      },
+                      buttontext: 'Continue →',
+                    )
+                  : const SizedBox(),
             ],
           ),
         ),

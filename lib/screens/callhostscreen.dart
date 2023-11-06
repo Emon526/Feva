@@ -30,15 +30,6 @@ class CallHostScreen extends StatelessWidget {
                 SizedBox(
                   height: Utils(context).getScreenSize.height * 0.1,
                 ),
-                // Text(
-                //   value.hiringclicked
-                //       ? "Looking For ${value.skill} from ${value.country}"
-                //       : "Looking For ${value.skill} Project for ${value.country}",
-                //   style: const TextStyle(
-                //     color: Consts.secondaryColor,
-                //     fontWeight: FontWeight.w500,
-                //   ),
-                // ),
                 Text(
                   value.isRemoteJoined
                       ? "Connected"
@@ -50,44 +41,7 @@ class CallHostScreen extends StatelessWidget {
                     fontWeight: FontWeight.w500,
                   ),
                 ),
-
                 const Spacer(),
-                // Wrap(
-                //   alignment: WrapAlignment.spaceBetween,
-                //   children: [
-                //     DialButton(
-                //       iconSrc: "assets/logo.png",
-                //       text: "Audio",
-                //       press: () {},
-                //     ),
-                //     DialButton(
-                //       iconSrc: "assets/logo.png",
-                //       text: "Microphone",
-                //       press: () {},
-                //     ),
-                //     DialButton(
-                //       iconSrc: "assets/logo.png",
-                //       text: "Video",
-                //       press: () {},
-                //     ),
-                //     DialButton(
-                //       iconSrc: "assets/logo.png",
-                //       text: "Message",
-                //       press: () {},
-                //     ),
-                //     DialButton(
-                //       iconSrc: "assets/logo.png",
-                //       text: "Add contact",
-                //       press: () {},
-                //     ),
-                //     DialButton(
-                //       iconSrc: "assets/logo.png",
-                //       text: "Voice mail",
-                //       press: () {},
-                //     ),
-                //   ],
-                // ),
-                // VerticalSpacing(),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: [
@@ -169,45 +123,6 @@ class RoundedButton extends StatelessWidget {
           child: Center(
             child: Icon(iconSrc, color: iconColor),
           ),
-        ),
-      ),
-    );
-  }
-}
-
-class DialButton extends StatelessWidget {
-  const DialButton({
-    super.key,
-    required this.iconSrc,
-    required this.text,
-    required this.press,
-  });
-
-  final String iconSrc, text;
-  final VoidCallback press;
-
-  @override
-  Widget build(BuildContext context) {
-    return SizedBox(
-      width: 120,
-      child: TextButton(
-        onPressed: press,
-        child: Column(
-          children: [
-            Image.asset(
-              iconSrc,
-              color: Colors.white,
-              height: 36,
-            ),
-            // VerticalSpacing(of: 5),
-            Text(
-              text,
-              style: const TextStyle(
-                color: Colors.white,
-                fontSize: 13,
-              ),
-            )
-          ],
         ),
       ),
     );

@@ -7,7 +7,9 @@ import '../provider/callprovider.dart';
 import '../utils/utils.dart';
 import '../widgets/custominputwidget.dart';
 import '../widgets/cutombutton.dart';
+import '../widgets/dialuserwidget.dart';
 import 'callhostscreen.dart';
+import 'faceverficationscreen.dart';
 
 class HiringFormScreen extends StatelessWidget {
   final countryController = TextEditingController();
@@ -53,26 +55,6 @@ class HiringFormScreen extends StatelessWidget {
                           key: value.hiringFormKey,
                           child: Column(
                             children: [
-                              // InputWidget(
-                              //   readOnly: true,
-                              //   inputname:
-                              //       'What Country Are You Looking to Hire Form?',
-                              //   textEditingController: countryController,
-                              //   labelText: 'Select Country',
-                              //   textInputType: TextInputType.text,
-                              //   onChanged: (value) {},
-                              //   onTap: () => _showDropdown(
-                              //     context: context,
-                              //     selectedCountry: value.country,
-                              //     onChanged: (String? newValue) {
-                              //       countryController.text = newValue!;
-                              //       Navigator.of(context).pop();
-                              //     },
-                              //   ),
-                              //   validator: RequiredValidator(
-                              //     errorText: 'Input Required',
-                              //   ),
-                              // ),
                               InputWidget(
                                 readOnly: true,
                                 inputname:
@@ -96,7 +78,6 @@ class HiringFormScreen extends StatelessWidget {
                               SizedBox(
                                 height: size.height * 0.02,
                               ),
-
                               InputWidget(
                                 readOnly: true,
                                 inputname: 'Skill',
@@ -116,6 +97,25 @@ class HiringFormScreen extends StatelessWidget {
                                   errorText: 'Input Required',
                                 ),
                               ),
+                              SizedBox(
+                                height: size.height * 0.03,
+                              ),
+                              value.image == null
+                                  ? CustomButton(
+                                      ontap: () {
+                                        Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                            builder: (context) =>
+                                                const FaceVerificatuonScreen(),
+                                          ),
+                                        );
+                                      },
+                                      buttontext: 'Press to Take Photo',
+                                    )
+                                  : DialUserPic(
+                                      image:
+                                          context.read<CallProvider>().image!),
                             ],
                           ),
                         ),
@@ -123,27 +123,29 @@ class HiringFormScreen extends StatelessWidget {
                     ),
                   ),
                 ),
-                CustomButton(
-                  ontap: () async {
-                    if (value.hiringFormKey.currentState!.validate()) {
-                      value.skill = skillController.text;
-                      value.country = countryController.text;
-                      value.ishiring = true;
+                value.image != null
+                    ? CustomButton(
+                        ontap: () async {
+                          if (value.hiringFormKey.currentState!.validate()) {
+                            value.skill = skillController.text;
+                            value.country = countryController.text;
+                            value.ishiring = true;
 
-                      FocusManager.instance.primaryFocus!.unfocus();
-                      //TODO:Fix User UID
-                      //  value.fetchToken(DateTime.now().millisecond);
-                      value.fetchToken(0);
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => const CallHostScreen(),
-                        ),
-                      );
-                    }
-                  },
-                  buttontext: 'Continue →',
-                ),
+                            FocusManager.instance.primaryFocus!.unfocus();
+                            //TODO:Fix User UID
+                            //  value.fetchToken(DateTime.now().millisecond);
+                            value.fetchToken(0);
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => const CallHostScreen(),
+                              ),
+                            );
+                          }
+                        },
+                        buttontext: 'Continue →',
+                      )
+                    : const SizedBox(),
               ],
             ),
           ),

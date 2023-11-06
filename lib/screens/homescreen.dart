@@ -6,7 +6,8 @@ import '../provider/callprovider.dart';
 import '../utils/utils.dart';
 import '../widgets/customsnackbar.dart';
 import '../widgets/cutombutton.dart';
-import 'faceverficationscreen.dart';
+import 'hiringformscreen.dart';
+import 'lookingforjobsscreen.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
@@ -60,16 +61,14 @@ class HomeScreen extends StatelessWidget {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (context) =>
-                                const FaceVerificatuonScreen(),
+                            builder: (context) => HiringFormScreen(),
                           ),
                         );
                       } else if (value.lookingjobsclicked) {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (context) =>
-                                const FaceVerificatuonScreen(),
+                            builder: (context) => LookingForJobsScreen(),
                           ),
                         );
                       } else {
